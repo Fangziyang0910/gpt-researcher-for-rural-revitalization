@@ -1,0 +1,15 @@
+{
+    "query": "广东省梅州市平远县泗水镇金田村发展政策背景",
+    "max_sections": 3,
+    "publish_formats": {
+      "markdown": true,
+      "pdf": true,
+      "docx": true
+    },
+    "include_human_feedback": false,
+    "follow_guidelines": false,
+    "model": "openai:deepseek-r1-250120",
+    "guidelines": [
+    ],
+    "verbose": true
+  }
