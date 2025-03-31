@@ -167,7 +167,7 @@ class ResearchConductor:
         new_search_urls = await self._get_new_urls(urls)
         self.logger.info(f"New URLs to process: {new_search_urls}")
 
-        scraped_content = await self.researcher.scraper_manager.browse_urls(new_search_urls)
+        scraped_content = await self.researcher.scraper_manager.browse_urls(new_search_urls) # 根据url爬具体网页的数据。
         self.logger.info(f"Scraped content from {len(scraped_content)} URLs")
 
         if self.researcher.vector_store:
