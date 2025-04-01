@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 import json
 
 from .config import Config
@@ -20,6 +20,7 @@ from .actions import (
     extract_headers,
     extract_sections,
     table_of_contents,
+    get_search_results,
     get_retrievers,
     choose_agent
 )
@@ -52,10 +53,12 @@ class GPTResearcher:
         headers: dict | None = None,
         max_subtopics: int = 5,
         log_handler=None,
+        language = "english"
     ):
         self.query = query
         self.report_type = report_type
         self.cfg = Config(config_path)
+        self.cfg.language = language
         self.llm = GenericLLMProvider(self.cfg)
         self.report_source = report_source if report_source else getattr(self.cfg, 'report_source', None)
         self.report_format = report_format
@@ -194,16 +197,17 @@ class GPTResearcher:
         # Return the research context
         return self.context
 
-    async def write_report(self, existing_headers: list = [], relevant_written_contents: list = [], ext_context=None) -> str:
+    async def write_report(self, existing_headers: list = [], relevant_written_contents: list = [], ext_context=None, custom_prompt="") -> str:
         await self._log_event("research", step="writing_report", details={
             "existing_headers": existing_headers,
             "context_source": "external" if ext_context else "internal"
         })
         
         report = await self.report_generator.write_report(
-            existing_headers,
-            relevant_written_contents,
-            ext_context or self.context
+            existing_headers=existing_headers,
+            relevant_written_contents=relevant_written_contents,
+            ext_context=ext_context or self.context,
+            custom_prompt=custom_prompt
         )
         
         await self._log_event("research", step="report_completed", details={
@@ -222,6 +226,9 @@ class GPTResearcher:
         intro = await self.report_generator.write_introduction()
         await self._log_event("research", step="introduction_completed")
         return intro
+
+    async def quick_search(self, query: str, query_domains: list[str] = None) -> list[Any]:
+        return await get_search_results(query, self.retrievers[0], query_domains=query_domains)
 
     async def get_subtopics(self):
         return await self.report_generator.get_subtopics()
