@@ -173,6 +173,7 @@ class RuralAnalysisAgent:
 
         # 使用组合的上下文生成报告
         report_markdown = await researcher.write_report(ext_context=ext_context)
+        print(type(report_markdown))
                 
         
         # 添加参考文献
