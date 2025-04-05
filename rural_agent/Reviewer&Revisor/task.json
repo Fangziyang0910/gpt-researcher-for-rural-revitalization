@@ -1,0 +1,19 @@
+{
+  "query": "请根据提供的分析框架，对北京市密云县古北口村的乡村发展现状进行总结分析",
+  "village_name": "北京市密云县古北口村",
+  "report_source": "web",
+  "report_format": "docx",
+  "output_path": "output",
+  "source_urls": [],
+  "document_urls": [],
+  "complement_source_urls": true,
+  "query_domains": [],
+  "model": "gpt-4o",
+  "guidelines": [
+    "报告是否符合分析框架的要求？",
+    "报告是否全面覆盖了乡村发展的各个方面？",
+    "报告是否提供了足够的细节和数据支持？",
+    "报告的逻辑结构是否清晰？"
+  ],
+  "verbose": true
+}
